@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>KAELIX+ | Cinematic AI Production</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#040609;
+  --surface:#070b12;
+  --blue:#8CC8F5;
+  --blue-dim:rgba(140,200,245,0.12);
+  --blue-glow:rgba(140,200,245,0.22);
+  --ember:#E87040;
+  --white:#EEF1F6;
+  --muted:#5A6A80;
+  --muted2:#3A4858;
+  --border:rgba(140,200,245,0.1);
+  --border2:rgba(140,200,245,0.06);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Space Grotesk',sans-serif;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── GRID BG ── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(140,200,245,0.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(140,200,245,0.035) 1px,transparent 1px);
+  background-size:72px 72px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  padding:22px 52px;
+  backdrop-filter:blur(20px);
+  background:rgba(4,6,9,0.7);
+  border-bottom:1px solid var(--border2);
+}
+.nav-left,.nav-right{display:flex;align-items:center;gap:36px;}
+.nav-right{justify-content:flex-end;}
+.nav-left a,.nav-right a.nav-link{
+  font-size:11px;font-weight:500;letter-spacing:0.18em;
+  color:var(--muted);text-decoration:none;text-transform:uppercase;
+  transition:color 0.3s;
+}
+.nav-left a:hover,.nav-right a.nav-link:hover{color:var(--white);}
+.nav-logo{
+  text-align:center;
+  font-size:18px;font-weight:700;letter-spacing:0.32em;
+  color:var(--white);text-decoration:none;
+}
+.nav-logo sup{color:var(--blue);font-size:10px;vertical-align:super;letter-spacing:0;}
+.nav-cta{
+  padding:9px 22px;border:1px solid var(--blue);border-radius:1px;
+  font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--blue);text-decoration:none;transition:all 0.3s;
+}
+.nav-cta:hover{background:var(--blue);color:var(--bg);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;z-index:1;
+  text-align:center;
+  padding:140px 40px 100px;
+}
+
+/* vignette */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 45%,transparent 30%,rgba(4,6,9,0.7) 100%);
+  pointer-events:none;z-index:1;
+}
+
+/* glowing arc (Zerra-style) */
+.hero-arc{
+  position:absolute;bottom:-280px;left:50%;
+  transform:translateX(-50%);
+  width:130%;height:560px;
+  border-radius:50%;
+  border:1px solid rgba(140,200,245,0.18);
+  box-shadow:0 0 60px rgba(140,200,245,0.08),inset 0 0 40px rgba(140,200,245,0.04);
+  pointer-events:none;z-index:1;
+}
+
+#space-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+
+.hero-inner{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;
+  align-items:center;
+  gap:0;
+}
+
+/* ghost brand text (Crystal Tech style) */
+.brand-ghost{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:clamp(60px,12vw,160px);
+  font-weight:700;
+  letter-spacing:0.55em;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(140,200,245,0.055);
+  white-space:nowrap;
+  pointer-events:none;
+  user-select:none;
+  z-index:1;
+}
+
+/* stat pills */
+.pills{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+  margin-bottom:36px;
+  opacity:0;transform:translateY(16px);
+  animation:fadeUp 0.7s forwards 0.2s;
+}
+.pill{
+  padding:7px 18px;border-radius:100px;
+  border:1px solid rgba(140,200,245,0.18);
+  background:rgba(140,200,245,0.06);
+  font-family:'Space Mono',monospace;
+  font-size:10px;letter-spacing:0.2em;
+  color:var(--muted);text-transform:uppercase;
+}
+
+/* eyebrow */
+.hero-eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:10px;letter-spacing:0.34em;
+  color:var(--blue);text-transform:uppercase;
+  margin-bottom:28px;
+  opacity:0;transform:translateY(16px);
+  animation:fadeUp 0.7s forwards 0.35s;
+}
+
+/* headline */
+.hero-headline{
+  font-size:clamp(36px,6.5vw,88px);
+  font-weight:700;line-height:1.0;
+  letter-spacing:-0.025em;
+  margin-bottom:20px;
+  opacity:0;transform:translateY(24px);
+  animation:fadeUp 0.8s forwards 0.5s;
+}
+.hero-headline .line1{
+  display:block;
+  color:var(--muted);
+  font-weight:300;
+  font-size:0.55em;
+  letter-spacing:0.01em;
+  margin-bottom:4px;
+}
+.hero-headline .line2{
+  display:block;color:var(--white);
+}
+.hero-headline .line3{
+  display:block;
+  color:var(--blue);
+}
+
+/* sub */
+.hero-sub{
+  font-size:16px;line-height:1.7;
+  color:var(--muted);
+  max-width:520px;margin:0 auto 16px;
+  opacity:0;transform:translateY(18px);
+  animation:fadeUp 0.8s forwards 0.65s;
+}
+
+/* cinematic tag */
+.cine-tags{
+  display:flex;gap:24px;justify-content:center;align-items:center;
+  margin-bottom:44px;
+  opacity:0;transform:translateY(18px);
+  animation:fadeUp 0.8s forwards 0.75s;
+}
+.ctag{
+  font-family:'Space Mono',monospace;
+  font-size:10px;letter-spacing:0.28em;
+  color:var(--muted2);text-transform:uppercase;
+}
+.ctag-sep{width:1px;height:14px;background:var(--muted2);}
+
+/* ctas */
+.hero-ctas{
+  display:flex;gap:16px;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(18px);
+  animation:fadeUp 0.8s forwards 0.9s;
+}
+.btn-reel{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 28px;
+  border:1px solid var(--border);
+  border-radius:100px;
+  color:var(--white);font-size:13px;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;
+  text-decoration:none;transition:all 0.3s;
+}
+.btn-reel:hover{border-color:var(--blue-glow);color:var(--blue);}
+.play-icon{
+  width:28px;height:28px;border-radius:50%;
+  border:1px solid currentColor;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;padding-left:2px;
+}
+.btn-primary{
+  padding:14px 32px;background:var(--blue);
+  color:var(--bg);font-size:13px;font-weight:700;
+  letter-spacing:0.16em;text-transform:uppercase;
+  text-decoration:none;border-radius:1px;transition:all 0.3s;
+}
+.btn-primary:hover{background:#A8D8FF;transform:translateY(-2px);}
+
+/* bottom service nav (Crystal Tech style) */
+.service-nav{
+  position:absolute;bottom:0;left:0;right:0;
+  z-index:2;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--border2);
+}
+.svc-item{
+  padding:18px 32px;
+  border-right:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background 0.3s;cursor:pointer;
+}
+.svc-item:last-child{border-right:none;}
+.svc-item.active{background:rgba(140,200,245,0.05);}
+.svc-item:hover{background:rgba(140,200,245,0.04);}
+.svc-name{
+  font-size:11px;font-weight:500;letter-spacing:0.14em;
+  color:var(--muted);text-transform:uppercase;
+  transition:color 0.3s;
+}
+.svc-item.active .svc-name{color:var(--blue);}
+.svc-item:hover .svc-name{color:var(--white);}
+.svc-n{
+  font-family:'Space Mono',monospace;
+  font-size:9px;color:var(--muted2);letter-spacing:0.2em;
+}
+.svc-item.active .svc-n{color:var(--blue);opacity:0.7;}
+
+/* ── TRUST BAR ── */
+.trust-bar{
+  position:relative;z-index:1;
+  padding:52px 60px;
+  border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:40px;
+}
+.trust-label{
+  font-family:'Space Mono',monospace;
+  font-size:10px;letter-spacing:0.28em;
+  color:var(--muted);text-transform:uppercase;
+  flex-shrink:0;
+}
+.trust-logos{
+  display:flex;gap:20px;align-items:center;flex:1;
+  justify-content:center;flex-wrap:wrap;
+}
+.logo-pill{
+  padding:10px 24px;
+  border:1px solid var(--border2);
+  border-radius:1px;
+  font-size:12px;font-weight:600;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--muted2);
+  background:rgba(255,255,255,0.02);
+}
+.trust-right{
+  font-size:13px;color:var(--muted);
+  flex-shrink:0;text-align:right;
+}
+.trust-right strong{color:var(--white);}
+
+/* ── SECTION COMMONS ── */
+section{position:relative;z-index:1;}
+.sec-eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:10px;letter-spacing:0.34em;
+  color:var(--blue);text-transform:uppercase;
+  margin-bottom:18px;
+}
+.sec-title{
+  font-size:clamp(28px,4vw,50px);
+  font-weight:700;letter-spacing:-0.025em;line-height:1.1;
+}
+
+/* ── DIFFERENCE SECTION ── */
+.difference{padding:100px 60px;}
+.diff-header{
+  display:flex;align-items:flex-end;
+  justify-content:space-between;
+  margin-bottom:64px;
+  gap:40px;
+}
+.diff-header-right{
+  max-width:440px;
+  font-size:15px;line-height:1.75;
+  color:var(--muted);
+}
+.diff-header-right strong{color:var(--white);}
+.diff-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  background:var(--border2);
+}
+.diff-card{
+  background:var(--surface);
+  padding:48px 44px;
+  position:relative;overflow:hidden;
+  transition:background 0.4s;
+}
+.diff-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 10% 10%,rgba(140,200,245,0.07) 0%,transparent 60%);
+  opacity:0;transition:opacity 0.4s;pointer-events:none;
+}
+.diff-card:hover{background:#080d18;}
+.diff-card:hover::after{opacity:1;}
+.dc-num{
+  font-family:'Space Mono',monospace;font-size:10px;
+  color:var(--blue);letter-spacing:0.24em;opacity:0.55;
+  margin-bottom:32px;
+}
+.dc-title{
+  font-size:20px;font-weight:700;
+  letter-spacing:-0.01em;margin-bottom:12px;
+}
+.dc-desc{
+  font-size:14px;line-height:1.75;color:var(--muted);
+  margin-bottom:28px;
+}
+.dc-tag{
+  display:inline-block;
+  padding:5px 14px;
+  border:1px solid var(--border);
+  border-radius:100px;
+  font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:0.24em;
+  color:var(--blue);text-transform:uppercase;
+  background:var(--blue-dim);
+}
+
+/* ── STATS BLOCK ── */
+.stats-block{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--border2);
+  border-bottom:1px solid var(--border2);
+}
+.stat-cell{
+  padding:56px 40px;text-align:center;
+  border-right:1px solid var(--border2);
+}
+.stat-cell:last-child{border-right:none;}
+.stat-big{
+  font-size:clamp(42px,6vw,76px);
+  font-weight:700;letter-spacing:-0.04em;
+  line-height:1;margin-bottom:10px;
+}
+.stat-big .blue{color:var(--blue);}
+.stat-label{
+  font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:0.26em;
+  color:var(--muted);text-transform:uppercase;
+}
+
+/* ── TRUST SIGNALS ── */
+.trust-signals{padding:100px 60px;}
+.ts-header{margin-bottom:56px;}
+.ts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);}
+.ts-card{
+  background:var(--surface);
+  padding:44px 40px;
+}
+.ts-icon{
+  width:36px;height:36px;margin-bottom:24px;
+  border:1px solid var(--border);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--blue);font-size:14px;
+}
+.ts-title{font-size:16px;font-weight:700;margin-bottom:10px;}
+.ts-desc{font-size:13px;line-height:1.75;color:var(--muted);}
+
+/* ── PROCESS ── */
+.process{padding:100px 60px;border-top:1px solid var(--border2);}
+.proc-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border2);margin-top:56px;
+}
+.proc-step{background:var(--surface);padding:44px 40px;position:relative;}
+.ps-num{
+  font-family:'Space Mono',monospace;
+  font-size:10px;color:var(--blue);
+  letter-spacing:0.3em;margin-bottom:36px;
+}
+.ps-name{font-size:20px;font-weight:700;letter-spacing:-0.01em;margin-bottom:12px;}
+.ps-desc{font-size:13px;line-height:1.75;color:var(--muted);}
+.ps-connector{
+  position:absolute;top:44px;right:-1px;
+  width:1px;height:36px;
+  background:linear-gradient(to bottom,var(--blue),transparent);
+  opacity:0.4;
+}
+
+/* ── CTA SECTION ── */
+.cta-section{
+  position:relative;padding:160px 60px;text-align:center;
+  overflow:hidden;
+}
+.cta-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:800px;height:800px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,112,64,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cta-glow2{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(140,200,245,0.05) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cta-eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:10px;letter-spacing:0.34em;
+  color:var(--ember);text-transform:uppercase;margin-bottom:22px;
+}
+.cta-headline{
+  font-size:clamp(32px,5.5vw,64px);
+  font-weight:700;letter-spacing:-0.025em;
+  line-height:1.1;margin-bottom:18px;
+}
+.cta-sub{font-size:16px;color:var(--muted);margin-bottom:44px;}
+.cta-email{
+  display:block;margin-top:28px;
+  font-family:'Space Mono',monospace;
+  font-size:11px;letter-spacing:0.2em;
+  color:var(--muted);text-transform:uppercase;
+}
+.cta-email a{color:var(--blue);text-decoration:none;}
+.cta-email a:hover{text-decoration:underline;}
+
+/* ── FOOTER ── */
+footer{
+  padding:36px 60px;border-top:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:1;
+}
+.footer-logo{font-size:14px;font-weight:700;letter-spacing:0.3em;}
+.footer-logo sup{color:var(--blue);font-size:9px;}
+.footer-links{display:flex;gap:28px;list-style:none;}
+.footer-links a{font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.3s;}
+.footer-links a:hover{color:var(--white);}
+.footer-copy{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.85s ease,transform 0.85s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  nav{grid-template-columns:1fr auto;padding:18px 24px;}
+  .nav-left{display:none;}
+  .nav-right{gap:14px;}
+  .hero{padding:120px 24px 100px;}
+  .service-nav{display:none;}
+  .trust-bar{flex-direction:column;padding:40px 24px;text-align:center;}
+  .trust-logos{justify-content:center;}
+  .difference,.trust-signals,.process{padding:70px 24px;}
+  .diff-header{flex-direction:column;}
+  .diff-grid,.ts-grid,.proc-grid{grid-template-columns:1fr;}
+  .stats-block{grid-template-columns:repeat(2,1fr);}
+  .stat-cell:nth-child(2){border-right:none;}
+  .stat-cell:nth-child(3){border-top:1px solid var(--border2);}
+  .cta-section{padding:100px 24px;}
+  footer{flex-direction:column;gap:20px;padding:28px 24px;text-align:center;}
+  .footer-links{justify-content:center;flex-wrap:wrap;}
+  .brand-ghost{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- CANVAS BG -->
+<canvas id="space-canvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="#services">Services</a>
+    <a href="#work">Work</a>
+  </div>
+  <a href="#" class="nav-logo">KAELIX<sup>+</sup></a>
+  <div class="nav-right">
+    <a href="#about" class="nav-link">About</a>
+    <a href="#contact" class="nav-cta">Start a Project</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="brand-ghost">KAELIX</span>
+  <div class="hero-arc"></div>
+
+  <div class="hero-inner">
+    <!-- stat pills -->
+    <div class="pills">
+      <span class="pill">85+ Clients Globally</span>
+      <span class="pill">258+ Videos Delivered</span>
+      <span class="pill">4+ Years of AI Production</span>
+    </div>
+
+    <p class="hero-eyebrow">Cinematic AI Production Studio</p>
+
+    <h1 class="hero-headline">
+      <span class="line1">We don't just make AI.</span>
+      <span class="line2">We make AI</span>
+      <span class="line3" style="color:var(--blue);">LOOK REAL.</span>
+    </h1>
+
+    <p class="hero-sub">Not just generated content — crafted narratives, believable characters, and cinematic stories your audience trusts.</p>
+
+    <div class="cine-tags">
+      <span class="ctag">Cinematic</span>
+      <span class="ctag-sep"></span>
+      <span class="ctag">Sensible</span>
+      <span class="ctag-sep"></span>
+      <span class="ctag">Trustable</span>
+      <span class="ctag-sep"></span>
+      <span class="ctag">Real</span>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="#" class="btn-reel">
+        <span class="play-icon">▶</span>
+        Play Showreel
+      </a>
+      <a href="#contact" class="btn-primary">Start a Project</a>
+    </div>
+  </div>
+
+  <!-- bottom service nav -->
+  <div class="service-nav">
+    <div class="svc-item active">
+      <span class="svc-name">Cinematic AI Videos</span>
+      <span class="svc-n">01</span>
+    </div>
+    <div class="svc-item">
+      <span class="svc-name">Realistic AI UGC</span>
+      <span class="svc-n">02</span>
+    </div>
+    <div class="svc-item">
+      <span class="svc-name">AI Commercials</span>
+      <span class="svc-n">03</span>
+    </div>
+    <div class="svc-item">
+      <span class="svc-name">AI Animations</span>
+      <span class="svc-n">04</span>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <p class="trust-label">Trusted Globally</p>
+  <div class="trust-logos">
+    <span class="logo-pill">Brand A</span>
+    <span class="logo-pill">Brand B</span>
+    <span class="logo-pill">Brand C</span>
+    <span class="logo-pill">Brand D</span>
+    <span class="logo-pill">Brand E</span>
+    <span class="logo-pill">Brand F</span>
+  </div>
+  <p class="trust-right"><strong>85+</strong> brands across<br>12+ countries</p>
+</div>
+
+<!-- STATS -->
+<div class="stats-block">
+  <div class="stat-cell reveal">
+    <div class="stat-big">85<span class="blue">+</span></div>
+    <p class="stat-label">Clients Globally</p>
+  </div>
+  <div class="stat-cell reveal">
+    <div class="stat-big">258<span class="blue">+</span></div>
+    <p class="stat-label">Videos Delivered</p>
+  </div>
+  <div class="stat-cell reveal">
+    <div class="stat-big">4<span class="blue">+</span></div>
+    <p class="stat-label">Years of AI Production</p>
+  </div>
+  <div class="stat-cell reveal">
+    <div class="stat-big">12<span class="blue">+</span></div>
+    <p class="stat-label">Countries Reached</p>
+  </div>
+</div>
+
+<!-- DIFFERENCE SECTION -->
+<section class="difference" id="services">
+  <div class="diff-header reveal">
+    <div>
+      <p class="sec-eyebrow">What We Do</p>
+      <h2 class="sec-title">AI production that<br>actually believes in itself</h2>
+    </div>
+    <p class="diff-header-right">
+      Most AI video looks <strong>generated</strong>. Ours looks <strong>directed</strong>. Every KAELIX+ production is concept-first — built on strategy, shaped by cinematography, and delivered with the confidence of a real production house.
+    </p>
+  </div>
+  <div class="diff-grid">
+
+    <div class="diff-card reveal">
+      <p class="dc-num">— 01</p>
+      <h3 class="dc-title">Cinematic AI Videos</h3>
+      <p class="dc-desc">Full-length story arcs, atmospheric worlds, and frame-precise shots — built entirely with AI but directed like a film. Your audience won't know it's AI. They'll just feel it.</p>
+      <span class="dc-tag">Feature-Film Grade</span>
+    </div>
+
+    <div class="diff-card reveal">
+      <p class="dc-num">— 02</p>
+      <h3 class="dc-title">Realistic AI UGC</h3>
+      <p class="dc-desc">Creator-authentic content that converts. No casting, no scheduling, no retakes — just human-feeling UGC at the scale and speed your campaigns demand.</p>
+      <span class="dc-tag">Creator-Native Feel</span>
+    </div>
+
+    <div class="diff-card reveal">
+      <p class="dc-num">— 03</p>
+      <h3 class="dc-title">AI Commercials with Concept</h3>
+      <p class="dc-desc">We don't start with prompts. We start with strategy. Every commercial is built on a brief, a story, and a reason to believe — then executed with AI precision.</p>
+      <span class="dc-tag">Strategy-First</span>
+    </div>
+
+    <div class="diff-card reveal">
+      <p class="dc-num">— 04</p>
+      <h3 class="dc-title">AI Animations</h3>
+      <p class="dc-desc">Motion that bends what's possible. From product loops to stop-scroll brand sequences — physics-defying animation that no human hand could render this fast or this affordable.</p>
+      <span class="dc-tag">Reality-Bending</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- TRUST SIGNALS -->
+<section class="trust-signals" id="about">
+  <div class="ts-header reveal">
+    <p class="sec-eyebrow">Why KAELIX+</p>
+    <h2 class="sec-title">Built different.<br>Because most AI video isn't good enough.</h2>
+  </div>
+  <div class="ts-grid">
+    <div class="ts-card reveal">
+      <div class="ts-icon">◈</div>
+      <h3 class="ts-title">Concept Before Camera</h3>
+      <p class="ts-desc">Every project starts with a creative brief, not a prompt. We build the story, the tone, and the audience insight before a single frame is generated. Strategy is built into every pixel.</p>
+    </div>
+    <div class="ts-card reveal">
+      <div class="ts-icon">◎</div>
+      <h3 class="ts-title">Cinematic Grade, Always</h3>
+      <p class="ts-desc">4K delivery. Color-graded. Sound-designed. We hold every output to the same standard as a production house — because your brand deserves nothing less than broadcast-ready.</p>
+    </div>
+    <div class="ts-card reveal">
+      <div class="ts-icon">◇</div>
+      <h3 class="ts-title">AI That Feels Human</h3>
+      <p class="ts-desc">We obsess over the details that make AI feel real — authentic expressions, natural motion, believable environments. The result? Content your audience trusts without knowing why.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="reveal">
+    <p class="sec-eyebrow">How It Works</p>
+    <h2 class="sec-title">From brief to broadcast</h2>
+  </div>
+  <div class="proc-grid">
+    <div class="proc-step reveal">
+      <p class="ps-num">01 —</p>
+      <h3 class="ps-name">Concept</h3>
+      <p class="ps-desc">We map the vision — story, tone, audience, emotion. Before a single frame is generated, the why is locked in.</p>
+      <span class="ps-connector"></span>
+    </div>
+    <div class="proc-step reveal">
+      <p class="ps-num">02 —</p>
+      <h3 class="ps-name">Produce</h3>
+      <p class="ps-desc">AI generation, creative direction, and editorial assembly — at cinematic grade. Every shot is intentional.</p>
+      <span class="ps-connector"></span>
+    </div>
+    <div class="proc-step reveal">
+      <p class="ps-num">03 —</p>
+      <h3 class="ps-name">Deliver</h3>
+      <p class="ps-desc">Final cut, ready for every platform. Colour-graded, sound-designed, and optimised for feed, broadcast, and beyond.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-glow"></div>
+  <div class="cta-glow2"></div>
+  <p class="cta-eyebrow reveal">Let's Work</p>
+  <h2 class="cta-headline reveal">Ready for AI that<br>your audience actually believes?</h2>
+  <p class="cta-sub reveal">Tell us your brand. We handle the rest.</p>
+  <a href="mailto:hello@kaelix.studio" class="btn-primary reveal">Start a Project →</a>
+  <span class="cta-email reveal">Or reach us at <a href="mailto:hello@kaelix.studio">hello@kaelix.studio</a></span>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">KAELIX<sup>+</sup></span>
+  <ul class="footer-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 KAELIX+ Studio</span>
+</footer>
+
+<script>
+// ── STAR CANVAS ──
+const cvs=document.getElementById('space-canvas');
+const ctx=cvs.getContext('2d');
+function resize(){cvs.width=window.innerWidth;cvs.height=window.innerHeight;}
+resize();
+window.addEventListener('resize',resize);
+
+const STARS=Array.from({length:260},()=>({
+  xr:Math.random(),yr:Math.random(),
+  r:Math.random()*1.1+0.1,
+  a:Math.random()*0.45+0.07,
+  tw:Math.random()*Math.PI*2,
+  spd:Math.random()*0.35+0.12
+}));
+
+let T=0;
+function draw(){
+  const W=cvs.width,H=cvs.height;
+  ctx.clearRect(0,0,W,H);
+  // deep dark bg
+  ctx.fillStyle='rgba(4,6,9,0.95)';
+  ctx.fillRect(0,0,W,H);
+  // subtle blue vignette center
+  const vg=ctx.createRadialGradient(W*0.5,H*0.42,0,W*0.5,H*0.42,W*0.55);
+  vg.addColorStop(0,'rgba(15,30,60,0.4)');
+  vg.addColorStop(1,'rgba(4,6,9,0)');
+  ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+  // stars
+  STARS.forEach(s=>{
+    const a=s.a*(0.6+0.4*Math.sin(T*s.spd+s.tw));
+    ctx.beginPath();
+    ctx.arc(s.xr*W,s.yr*H,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(200,220,255,${a})`;
+    ctx.fill();
+  });
+  T+=0.012;
+  requestAnimationFrame(draw);
+}
+draw();
+
+// ── SERVICE NAV TABS ──
+document.querySelectorAll('.svc-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    document.querySelectorAll('.svc-item').forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+// ── SCROLL REVEAL ──
+const els=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:0.08});
+els.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
