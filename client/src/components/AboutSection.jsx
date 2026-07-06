@@ -11,7 +11,6 @@ export default function AboutSection() {
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} 
           />
           <div className="portrait-grid" style={{ zIndex: 1 }}></div>
-          <div className="portrait-glow-orb" style={{ zIndex: 1 }}></div>
           <div className="portrait-overlay" style={{ zIndex: 2 }}></div>
           <div className="portrait-badge" style={{ zIndex: 3 }}>AADITYA A RAJ / FOUNDER</div>
         </div>
