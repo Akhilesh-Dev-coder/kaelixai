@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 const servicesList = [
   {
     title: 'AI Commercial Videos',
-    desc: 'High-end commercial videos with cinematic lighting, photorealistic characters, and advanced art direction for premium brands.',
+    desc: 'Your brand deserves a commercial that actually looks like a commercial. We create high-end video ads with cinematic visuals, real-feeling characters, and professional direction, the kind of quality that used to cost a fortune. Now it doesn\'t have to.',
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
@@ -13,7 +13,7 @@ const servicesList = [
   },
   {
     title: 'AI Product Ads',
-    desc: 'Attention-grabbing advertising spots that put your products in fantastical, impossible environments at the speed of thought.',
+    desc: 'People scroll past hundreds of ads every day. Yours won\'t be one of them. We build product ads so visually sharp and unexpected that your audience stops, watches, and remembers, exactly what a great ad is supposed to do.',
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z" />
@@ -23,7 +23,7 @@ const servicesList = [
   },
   {
     title: 'AI Fashion Campaigns',
-    desc: 'Avant-garde visual lookbooks and cinematic runaways created using generative models for next-gen fashion lines.',
+    desc: 'Your collection deserves to be seen the right way. Whether you run a clothing label, a boutique, or a fashion studio, we create campaign visuals that make people stop, look twice, and remember your brand. No big production budget needed. Just your vision, and we\'ll bring it to life in a way that actually sells.',
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
@@ -32,7 +32,7 @@ const servicesList = [
   },
   {
     title: 'AI Cinematic Films',
-    desc: 'Full-scale storytelling with script-to-screen production, orchestral audio design, and custom visual effects orchestration.',
+    desc: 'Some brands have a story worth telling properly. We take your idea from script to final cut, with real narrative, sound design, and visuals that feel like cinema. For the brands that want more than just another ad.',
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="2" y="2" width="20" height="20" rx="2" ry="2" />
@@ -42,7 +42,7 @@ const servicesList = [
   },
   {
     title: 'AI UGC Videos',
-    desc: 'Highly relatable, conversion-oriented content created with high-fidelity digital avatars and natural voice synthesizer models.',
+    desc: 'The content your audience already trusts, done right. We produce natural, platform-ready videos that feel like real people talking about your brand, because that\'s exactly what converts. Built for Reels, TikToks, and YouTube without a single shoot day.',
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
@@ -51,7 +51,7 @@ const servicesList = [
   },
   {
     title: 'AI Image Generation',
-    desc: 'Ultra-high resolution brand assets, key visuals, concept designs, and social media media packages.',
+    desc: 'Every brand needs visuals that look like they mean business. We create high-resolution images, product shots, hero creatives, and social media assets, all built around your brand, ready to use, and impossible to scroll past.',
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
@@ -62,7 +62,7 @@ const servicesList = [
   },
   {
     title: 'AI Motion Graphics',
-    desc: 'Dynamic titles, stylized brand logos, and generative particle systems tailored to your brand guidelines.',
+    desc: 'Movement done right makes your brand unforgettable. From logo animations to full motion toolkits, we design graphics that bring energy and consistency to everything your brand puts out, across every screen and platform.',
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
@@ -71,7 +71,7 @@ const servicesList = [
   },
   {
     title: 'AI Brand Content',
-    desc: 'Continuous visual storytelling and brand worlds scaled across platforms for modern digital footprints.',
+    desc: 'Posting consistently is hard. Looking good while doing it is harder. We build and manage your brand\'s visual content so that every post, every campaign, and every platform tells the same story, one that people actually connect with.',
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -117,7 +117,7 @@ export default function ServicesGrid() {
     <section className="section" id="services">
       <div className="eyebrow reveal">Capabilities</div>
       <h2 className="big-title reveal" style={{ fontSize: 'clamp(32px, 5vw, 64px)', marginBottom: '56px', maxWidth: '760px' }}>
-        A full creative<br />studio, powered by AI.
+        The only AI studio<br />your brand will ever need.
       </h2>
       <div className="services-grid reveal" id="services-grid">
         {servicesList.map((service, index) => (

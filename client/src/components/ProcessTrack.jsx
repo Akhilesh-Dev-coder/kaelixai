@@ -1,12 +1,12 @@
 import React from 'react';
 
 const steps = [
-  { title: 'Strategy', desc: 'Defining brand voice, audience, and the visual world the film will live in.' },
-  { title: 'Script', desc: 'Turning strategy into a shot-by-shot narrative built for AI generation.' },
-  { title: 'Prompt Engineering', desc: 'Crafting the precise language that steers each model toward the shot.' },
-  { title: 'AI Generation', desc: 'Producing footage across multiple models for coverage and choice.' },
-  { title: 'Editing', desc: 'Grading, sound design, and assembly into a finished cinematic piece.' },
-  { title: 'Delivery', desc: 'Exporting every format your campaign needs, on schedule.' },
+  { title: 'Strategy', desc: 'One call. Your brand, audience, and goal - mapped and ready.' },
+  { title: 'Script', desc: 'Shot-by-shot, written for AI. You approve before we touch anything.' },
+  { title: 'Creative Direction', desc: 'Style, mood, color every visual decision locked before production.' },
+  { title: 'AI Production', desc: 'Multiple AI models running at once. Weeks of work, done in days.' },
+  { title: 'Editing', desc: 'Graded, sound-designed, and timed until it feels premium.' },
+  { title: 'Delivery', desc: 'Every format. Every platform. Launch-ready from day one.' },
 ];
 
 export default function ProcessTrack() {
@@ -14,7 +14,7 @@ export default function ProcessTrack() {
     <section className="section" id="process">
       <div className="eyebrow reveal">Process</div>
       <h2 className="big-title reveal" style={{ fontSize: 'clamp(32px, 5vw, 64px)', marginBottom: '20px' }}>
-        From brief to broadcast.
+        From idea to live campaign in days, not months.
       </h2>
       <p className="sub reveal" style={{ marginBottom: '20px' }}>
         Six deliberate stages, engineered for speed without sacrificing craft.

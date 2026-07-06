@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import CtaFog from './CtaFog';
 
-const PROJECT_TYPES = ['AI Video', 'CGI Campaign', 'Concept Art', 'Web Graphics'];
-const BUDGETS = ['<₹5 Lakhs', '₹5L - ₹15L', '₹15L - ₹30L', '₹30L+'];
+const PROJECT_TYPES = ['AI Video', 'Product Ads', 'Fashion Campaign', 'Brand Content'];
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
-    budget: '₹5L - ₹15L',
     projectTypes: []
   });
   const [submitted, setSubmitted] = useState(false);
@@ -35,20 +33,38 @@ export default function ContactSection() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const emailTo = "kaelixaistudio@gmail.com";
+    const subject = encodeURIComponent(`New Project Inquiry from ${formData.name}`);
+    const projectTypesStr = formData.projectTypes.length > 0 ? formData.projectTypes.join(", ") : "Not Specified";
+    
+    const bodyText = `Name: ${formData.name}
+Email: ${formData.email}
+What we are building: ${projectTypesStr}
+
+Project Details:
+${formData.message}`;
+
+    const body = encodeURIComponent(bodyText);
+    
+    // Redirect to native mail client pre-filled
+    window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}`;
+
+    // Display drawing checkmark success state after a short delay
     setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        message: '',
+        projectTypes: []
+      });
+      
       setTimeout(() => {
         setSubmitted(false);
-        setFormData({
-          name: '',
-          email: '',
-          message: '',
-          budget: '₹5L - ₹15L',
-          projectTypes: []
-        });
       }, 6000);
-    }, 1500);
+    }, 800);
   };
 
   return (
@@ -60,46 +76,70 @@ export default function ContactSection() {
           
           {/* Left Column: Info Pane */}
           <div className="cta-info-pane">
-            <div className="eyebrow" style={{ alignSelf: 'flex-start', marginBottom: '20px' }}>Get In Touch</div>
-            <h2 className="cta-pane-title">
-              Let's create<br />something<br /><span className="glow-text">impossible.</span>
+            <div className="eyebrow" style={{ alignSelf: 'flex-start', marginBottom: '20px' }}>GET IN TOUCH</div>
+            <h2 className="cta-pane-title" style={{ fontSize: 'clamp(28px, 4vw, 44px)', lineHeight: '1.2', color: '#fff', marginBottom: '20px' }}>
+              Let's build something your audience will never forget.
             </h2>
-            <p className="cta-pane-desc">
-              Have a vision that borders on science fiction? Let’s translate it into cinematic frames.
+            <p className="cta-pane-desc" style={{ color: 'var(--text2)', marginBottom: '24px', lineHeight: '1.6' }}>
+              Every day your brand looks average, a customer is choosing someone else. Let's fix that.
             </p>
             
-            <div className="cta-status-badge">
-              <span className="pulse-dot"></span>
-              <span>Open for Q3 / Q4 projects</span>
+            <div className="cta-status-badge" style={{ marginBottom: '32px' }}>
+              <span className="pulse-dot" style={{ backgroundColor: '#22c55e' }}></span>
+              <span>Open for New Projects</span>
             </div>
             
-            <div className="cta-quick-contacts">
+            <div className="cta-quick-contacts" style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '32px' }}>
               <div className="contact-item">
-                <span className="item-label">General Inquiry</span>
-                <a href="mailto:hello@kaelix.ai" className="item-value">hello@kaelix.ai</a>
+                <span className="item-label" style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--accent)', letterSpacing: '0.1em', display: 'block', marginBottom: '4px' }}>General Inquiry</span>
+                <a href="mailto:kaelixaistudio@gmail.com" className="item-value" style={{ fontSize: '16px', color: '#fff', textDecoration: 'none', fontWeight: '500' }}>kaelixaistudio@gmail.com</a>
+                <span style={{ fontSize: '12px', color: 'var(--text2)', display: 'block', marginTop: '4px' }}>We respond within 24 hours. Always.</span>
               </div>
               <div className="contact-item">
-                <span className="item-label">Location</span>
-                <span className="item-value">Bengaluru · Mumbai, India</span>
+                <span className="item-label" style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--accent)', letterSpacing: '0.1em', display: 'block', marginBottom: '4px' }}>Phone / WhatsApp</span>
+                <a href="https://wa.me/919847047264" target="_blank" rel="noopener noreferrer" className="item-value" style={{ fontSize: '16px', color: '#fff', textDecoration: 'none', fontWeight: '500' }}>+91 98470 47264</a>
+              </div>
+              <div className="contact-item">
+                <span className="item-label" style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--accent)', letterSpacing: '0.1em', display: 'block', marginBottom: '4px' }}>Location</span>
+                <span className="item-value" style={{ fontSize: '16px', color: '#fff', fontWeight: '500' }}>Ernakulam, Kerala · Available Worldwide</span>
               </div>
             </div>
             
-            <div className="cta-socials">
-              <a href="#" className="social-link" aria-label="X (Twitter)">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-              <a href="#" className="social-link" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="cta-socials" style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderTop: '1px solid var(--border)', paddingTop: '20px' }}>
+              <span style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>Follow Us</span>
+              <a 
+                href="https://www.instagram.com/kaelix.ai/reels/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-link" 
+                aria-label="Instagram" 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  width: '40px', 
+                  height: '40px', 
+                  borderRadius: '50%', 
+                  background: 'rgba(255, 255, 255, 0.05)', 
+                  border: '1px solid var(--border)', 
+                  color: '#fff', 
+                  transition: 'all 0.3s ease' 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--accent)';
+                  e.currentTarget.style.borderColor = 'var(--accent)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.transform = 'none';
+                }}
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-              <a href="#" className="social-link" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                 </svg>
               </a>
             </div>
@@ -109,9 +149,10 @@ export default function ContactSection() {
           <div className="cta-form-pane">
             {submitted ? (
               <div className="cta-success-card">
-                <div className="success-icon-wrap">
-                  <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                <div className="success-icon-wrap" style={{ border: 'none', background: 'transparent', boxShadow: 'none' }}>
+                  <svg viewBox="0 0 52 52" width="60" height="60">
+                    <circle className="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                    <path className="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                   </svg>
                 </div>
                 <h3 className="success-title">Transmission Received</h3>
@@ -123,8 +164,28 @@ export default function ContactSection() {
             ) : (
               <form className="cta-full-form" onSubmit={handleSubmit}>
                 
+                {/* Project Types Selection */}
+                <div className="form-group-section" style={{ marginBottom: '32px' }}>
+                  <span className="group-title" style={{ display: 'block', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '16px' }}>WHAT ARE WE BUILDING?</span>
+                  <div className="selection-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                    {PROJECT_TYPES.map((type) => {
+                      const isActive = formData.projectTypes.includes(type);
+                      return (
+                        <button 
+                          key={type}
+                          type="button"
+                          onClick={() => handleTypeToggle(type)}
+                          className={`pill-btn ${isActive ? 'active' : ''}`}
+                        >
+                          {type}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 {/* Name & Email Group */}
-                <div className="form-row-two">
+                <div className="form-row-two" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
                   <div className="floating-group">
                     <input 
                       type="text" 
@@ -154,48 +215,8 @@ export default function ContactSection() {
                   </div>
                 </div>
                 
-                {/* Project Types Selection */}
-                <div className="form-group-section">
-                  <span className="group-title">What are we building?</span>
-                  <div className="selection-pills">
-                    {PROJECT_TYPES.map((type) => {
-                      const isActive = formData.projectTypes.includes(type);
-                      return (
-                        <button 
-                          key={type}
-                          type="button"
-                          onClick={() => handleTypeToggle(type)}
-                          className={`pill-btn ${isActive ? 'active' : ''}`}
-                        >
-                          {type}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-                
-                {/* Budget Selection */}
-                <div className="form-group-section">
-                  <span className="group-title">Project Scale (INR)</span>
-                  <div className="budget-selection-grid">
-                    {BUDGETS.map((budget) => {
-                      const isActive = formData.budget === budget;
-                      return (
-                        <button 
-                          key={budget}
-                          type="button"
-                          onClick={() => setFormData(prev => ({ ...prev, budget }))}
-                          className={`budget-pill-btn ${isActive ? 'active' : ''}`}
-                        >
-                          {budget}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-                
                 {/* Message Group */}
-                <div className="floating-group textarea-group">
+                <div className="floating-group textarea-group" style={{ marginBottom: '32px' }}>
                   <textarea 
                     name="message"
                     id="form-message"
@@ -210,12 +231,12 @@ export default function ContactSection() {
                 </div>
                 
                 {/* Submit button */}
-                <button type="submit" className="cta-submit-btn" disabled={loading}>
+                <button type="submit" className="cta-submit-btn" disabled={loading} style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
                   {loading ? (
                     <span className="loader-span">Establishing link...</span>
                   ) : (
                     <>
-                      <span>Submit Request</span>
+                      <span>SUBMIT REQUEST</span>
                       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>

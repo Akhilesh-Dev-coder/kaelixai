@@ -19,9 +19,8 @@ export default function Navbar() {
   return (
     <>
       <nav id="navbar" className={scrolled ? 'scrolled' : ''}>
-        <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ cursor: 'pointer' }}>
-          <span className="logo-dot"></span>
-          KAELIX<span>.AI</span>
+        <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+          <img src="/images/Kaelix Logo-02.svg" alt="KAELIX.AI" style={{ height: '24px', width: 'auto', display: 'block' }} />
         </div>
         
         {/* Desktop Menu */}

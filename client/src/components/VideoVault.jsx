@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+// Import high-resolution category starting poster images
+import aurumWatchesImg from '../assets/aurum_watches.png';
+import noirAtelierImg from '../assets/noir_atelier.png';
+import nyxProtocolImg from '../assets/nyx_protocol.png';
+import echoesOfMarsImg from '../assets/echoes_of_mars.png';
+
 // Cloudinary configuration (Option A)
 const CLOUDINARY_CLOUD_NAME = 'dawby8dui'; 
 
@@ -30,7 +36,8 @@ const categoriesData = [
     file: 'IMG_0930.MOV',
     count: 14,
     tags: ['Runway Gen-3', 'Kling AI', 'Ad Copy'],
-    desc: 'High-conversion product videos and luxury campaigns.'
+    desc: "Ads that make your audience stop, watch, and buy.",
+    poster: aurumWatchesImg
   },
   {
     key: 'AI UGC',
@@ -38,7 +45,8 @@ const categoriesData = [
     file: 'Video-172.mp4',
     count: 8,
     tags: ['Synthesia', 'HeyGen', 'Realistic Avatar'],
-    desc: 'Authentic creator review vlog and reaction posts.'
+    desc: "Content that builds trust and turns viewers into customers.",
+    poster: noirAtelierImg
   },
   {
     key: 'ANIMATION AI',
@@ -46,7 +54,8 @@ const categoriesData = [
     file: 'Video-346.mp4',
     count: 4,
     tags: ['Luma Machine', 'Morphs', 'Surreal Loops'],
-    desc: 'Surreal visual loops and liquid metal morphing physics.'
+    desc: "Visuals that keep your brand stuck in people's heads.",
+    poster: nyxProtocolImg
   },
   {
     key: 'cinematic_ai',
@@ -54,7 +63,8 @@ const categoriesData = [
     file: 'Video-685.mp4',
     count: 4,
     tags: ['Sora AI', 'Epic Sci-Fi', 'World-Gen'],
-    desc: 'Immersive trailers, neon cityscapes, and narrative worlds.'
+    desc: "Films that make your audience feel connected to your brand.",
+    poster: echoesOfMarsImg
   }
 ];
 
@@ -111,7 +121,7 @@ function shuffleArray(array) {
 function CategoryCard({ category, onOpenReels }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
-  const posterUrl = getVideoPoster(category.key, category.file);
+  const posterUrl = category.poster || getVideoPoster(category.key, category.file);
   const videoUrl = getVideoUrl(category.key, category.file);
 
   const handleMouseEnter = () => {
@@ -331,10 +341,10 @@ export default function VideoVault({ showreelTrigger, onShowreelClose }) {
       <div className="works-grid-header">
         <div className="eyebrow reveal" style={{ display: 'inline-flex' }}>Visual Portfolio</div>
         <h2 className="big-title reveal" style={{ fontSize: 'clamp(32px, 5vw, 56px)', marginBottom: '16px', color: '#fff' }}>
-          Visual Production Works
+          See What We've Built. Imagine What We'll Build for You.
         </h2>
         <p className="sub reveal" style={{ color: 'var(--text2)' }}>
-          Hover over each category card to preview the featured campaign. Click to open and browse the catalog in a fullscreen vertical Reels feed.
+          This is real work — no stock footage, no film crews. Just AI, creative direction, and results that speak for themselves. Find your category and see what's possible for your brand.
         </p>
       </div>
 

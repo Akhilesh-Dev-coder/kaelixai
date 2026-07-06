@@ -5,10 +5,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const statsList = [
-  { target: '150+', label: 'Projects Delivered' },
-  { target: '20M+', label: 'Views Generated' },
-  { target: '30+', label: 'Global Clients' },
-  { target: '99%', label: 'Client Satisfaction' }
+  { target: '357+', label: 'Projects Delivered' },
+  { target: '12M+', label: 'Views Generated' },
+  { target: '28+', label: 'Global Clients' },
+  { target: '100%', label: 'Client Satisfaction' }
 ];
 
 function StatCard({ target, label }) {

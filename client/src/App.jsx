@@ -16,6 +16,7 @@ import Testimonials from './components/Testimonials';
 import AboutSection from './components/AboutSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
+import WhatsAppFloat from './components/WhatsAppFloat';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,7 +50,7 @@ export default function App() {
       <GrainOverlay />
       <BackgroundStars />
       <BackgroundGrid />
-      
+
       <Navbar />
 
       <main>
@@ -58,7 +59,9 @@ export default function App() {
           <HeroSphere />
           <div className="hero-content">
             <div className="hero-tag">AI Video Generation Agency</div>
-            <div className="hero-logo">KAEL<span>IX</span>.AI</div>
+            <div className="hero-logo" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <img src="/images/Kaelix Logo-02.svg" alt="KAELIX.AI" style={{ height: 'clamp(52px, 8vw, 100px)', width: 'auto', display: 'block', margin: '10px 0 20px' }} />
+            </div>
             <div className="hero-headline">We create impossible visuals using artificial intelligence.</div>
             <div className="hero-ctas">
               <a href="#contact" className="btn btn-primary">Start Your Project</a>
@@ -83,24 +86,6 @@ export default function App() {
         {/* STATS SECTION */}
         <StatsGrid />
 
-        {/* AI TOOLS SECTION */}
-        <section className="section">
-          <div className="eyebrow reveal" style={{ alignSelf: 'center' }}>The Stack</div>
-          <h2 className="big-title reveal" style={{ fontSize: 'clamp(28px, 4vw, 48px)', textAlign: 'center', marginBottom: '50px' }}>
-            Best-in-class generative models,<br />orchestrated by our team.
-          </h2>
-          <div className="tools-wall reveal glass" style={{ padding: '44px' }}>
-            <div className="tool-chip glass">OpenAI</div>
-            <div className="tool-chip glass">Runway</div>
-            <div className="tool-chip glass">Kling</div>
-            <div className="tool-chip glass">Veo</div>
-            <div className="tool-chip glass">Midjourney</div>
-            <div className="tool-chip glass">Flux</div>
-            <div className="tool-chip glass">Luma</div>
-            <div className="tool-chip glass">ElevenLabs</div>
-          </div>
-        </section>
-
         {/* TESTIMONIALS SECTION */}
         <Testimonials />
 
@@ -112,6 +97,7 @@ export default function App() {
       </main>
 
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }
