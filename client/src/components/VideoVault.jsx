@@ -11,18 +11,26 @@ const CLOUDINARY_CLOUD_NAME = 'dawby8dui';
 
 export function getVideoUrl(categoryDir, fileName) {
   if (CLOUDINARY_CLOUD_NAME) {
-    const encodedCategory = encodeURIComponent(categoryDir);
     const cleanFileName = fileName.replace(/\.[^/.]+$/, ""); // Strip original extension
+    if (fileName.startsWith('/')) {
+      const encodedFileName = encodeURIComponent(cleanFileName.slice(1));
+      return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/${encodedFileName}.mp4`;
+    }
+    const encodedCategory = encodeURIComponent(categoryDir);
     const encodedFileName = encodeURIComponent(cleanFileName);
     return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/portfolio/${encodedCategory}/${encodedFileName}.mp4`;
   }
-  return `/videos/${categoryDir}/${fileName}`;
+  return `/videos/${categoryDir}/${fileName.startsWith('/') ? fileName.slice(1) : fileName}`;
 }
 
 export function getVideoPoster(categoryDir, fileName) {
   if (CLOUDINARY_CLOUD_NAME) {
-    const encodedCategory = encodeURIComponent(categoryDir);
     const cleanFileName = fileName.replace(/\.[^/.]+$/, "");
+    if (fileName.startsWith('/')) {
+      const encodedFileName = encodeURIComponent(cleanFileName.slice(1));
+      return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/${encodedFileName}.jpg`;
+    }
+    const encodedCategory = encodeURIComponent(categoryDir);
     const encodedFileName = encodeURIComponent(cleanFileName);
     return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/portfolio/${encodedCategory}/${encodedFileName}.jpg`;
   }
@@ -86,7 +94,7 @@ const videosData = [
   { id: 'ad-14', categoryDir: 'AI ADS', categoryName: 'AI ADS', file: 'Video-899.mp4', title: 'Luxume Roofing — Kerala Home', tags: ['Construction', 'Brand', 'Tropical'], desc: 'Warm and lush brand film for Luxume Roofing showing a beautiful Kerala traditional home under a mango tree at golden hour.' },
 
   // AI UGC
-  { id: 'ugc-1', categoryDir: 'AI UGC', categoryName: 'AI UGC', file: '2.1-invideo-seedance_2_0_3.mp4', title: 'Wildplay Chocolate Fragrance', tags: ['UGC', 'Fragrance', 'Creator'], desc: 'Natural UGC-style creator review of Wildplay Chocolate Body Perfume — authentic hold-to-camera presentation with warm tones.' },
+  { id: 'ugc-1', categoryDir: 'AI UGC', categoryName: 'AI UGC', file: '/IMG_1365.mov', title: 'Wildplay Chocolate Fragrance', tags: ['UGC', 'Fragrance', 'Creator'], desc: 'Natural UGC-style creator review of Wildplay Chocolate Body Perfume — authentic hold-to-camera presentation with warm tones.' },
   { id: 'ugc-2', categoryDir: 'AI UGC', categoryName: 'AI UGC', file: 'Video-172.mp4', title: 'Home Renovation Reveal', tags: ['UGC', 'Interior', 'Real Estate'], desc: 'Interior walkthrough UGC showing a freshly renovated room with a wooden glass door, pendant lights, and soft natural daylight.' },
   { id: 'ugc-3', categoryDir: 'AI UGC', categoryName: 'AI UGC', file: 'Video-32.mp4', title: 'Red Saree Rooftop Moment', tags: ['UGC', 'Fashion', 'Ethnic'], desc: 'Lifestyle UGC featuring a woman in a radiant red silk saree on a breezy rooftop at dusk — graceful and culturally rich.' },
   { id: 'ugc-4', categoryDir: 'AI UGC', categoryName: 'AI UGC', file: 'Video-359.mp4', title: 'Ethnic Jewellery Try-On', tags: ['UGC', 'Jewellery', 'Fashion'], desc: 'Vibrant creator content showcasing statement earrings and ethnic accessories in a lush outdoor setting — festive and real.' },
